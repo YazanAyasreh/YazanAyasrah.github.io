@@ -5,6 +5,44 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Yazan Ayasrah | Developer Hub</title>
 <link rel="stylesheet" href="styles.css">
+<style>
+.about-section {
+    display: flex;
+    align-items: flex-start;
+    gap: 40px;
+    margin-top: 20px;
+}
+.about-img {
+    flex-shrink: 0;
+    border-radius: 15px;
+    border: 3px solid #00ffcc;
+    box-shadow: 0 0 30px rgba(0, 255, 204, 0.2);
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+}
+.about-text {
+    flex-grow: 1;
+}
+.about-text h4 {
+    color: #00ffcc;
+    margin-bottom: 15px;
+    font-size: 20px;
+}
+.about-text p {
+    color: #bbb;
+    line-height: 1.8;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+@media (max-width: 768px) {
+    .about-section {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+}
+</style>
 </head>
 
 <body>
@@ -12,7 +50,7 @@
 <header>
     <h1>YAZAN.dev</h1>
     <nav>
-        <a href="https://yazanayasreh.github.io/MyOwnWebsite/">Home</a>
+        <a href="index.html">Home</a>
         <a href="projects.html">Projects</a>
         <a href="contact.html">Contact</a>
     </nav>
@@ -47,10 +85,28 @@
 <section class="section">
     <h3>About Me</h3>
     <div class="about-content">
-        <p style="font-size: 24px; color: #bbb; line-height: 1.8; margin-bottom: 30px;">
-            I'm an IT student passionate about web development, AI applications, and creating intuitive user experiences. 
-            With a focus on modern technologies and clean code, I craft solutions that solve real-world problems.
-        </p>
+        <div class="about-section">
+            <img src="https://via.placeholder.com/200x200/00ffcc/000000?text=YAZAN" alt="Yazan Ayasrah" class="about-img">
+            <div class="about-text">
+                <p>
+                    I'm an IT student passionate about web development, AI applications, and creating intuitive 
+                    user experiences. With a focus on modern technologies and clean code, I craft solutions that 
+                    solve real-world problems. I'm currently pursuing my degree while building exciting projects
+                    in my spare time.
+                </p>
+                <p>
+                    My journey in programming started with curiosity about how websites work, which led me to 
+                    explore HTML, CSS, and JavaScript. Over time, I've expanded my skills to include React, 
+                    Node.js, and various AI tools. I believe in continuous learning and building things that 
+                    make a difference in people's lives.
+                </p>
+                <p>
+                    When I'm not coding, you can find me exploring new technologies, contributing to open 
+                    source projects, or sharing my knowledge through blog posts and tutorials. Let's connect 
+                    and build something amazing together!
+                </p>
+            </div>
+        </div>
     </div>
 </section>
 

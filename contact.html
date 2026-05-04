@@ -5,77 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Contact | Yazan Ayasrah</title>
 <link rel="stylesheet" href="styles.css">
-</head>
-
-<body>
-
-<header>
-    <h1>YAZAN.dev</h1>
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="projects.html">Projects</a>
-        <a href="contact.html">Contact</a>
-    </nav>
-</header>
-
-<section class="hero">
-    <h2>Get in <span>Touch</span></h2>
-    <p>Connect with me on social media and let's build something amazing together.</p>
-</section>
-
-<section class="section">
-    <h3>About Me</h3>
-    <div class="about-content">
-        <p style="font-size: 24px; color: #bbb; line-height: 1.8; margin-bottom: 30px;">
-            I'm an IT student passionate about web development, AI applications, and creating intuitive user experiences. 
-            With a focus on modern technologies and clean code, I craft solutions that solve real-world problems.
-            Follow me on social media to see my latest projects and coding journey!
-        </p>
-    </div>
-</section>
-
-<section class="section">
-    <h3>Contact Me</h3>
-    <div class="contact-box">
-        <div class="contact-info">
-            <h4>Email</h4>
-            <p>contact@yazan.dev</p>
-        </div>
-        <div class="contact-info">
-            <h4>Phone</h4>
-            <p>+1 (555) 123-4567</p>
-        </div>
-        <div class="contact-info">
-            <h4>Location</h4>
-            <p>Palestine, Jordan</p>
-        </div>
-    </div>
-</section>
-
-<section class="section">
-    <h3>Connect with Me</h3>
-    <div class="projects">
-        <div class="card">
-            <h4>GitHub</h4>
-            <p>Check out my code repositories and open source contributions.</p>
-        </div>
-
-        <div class="card">
-            <h4>LinkedIn</h4>
-            <p>Connect with me professionally and see my career updates.</p>
-        </div>
-
-        <div class="card">
-            <h4>Twitter/X</h4>
-            <p>Follow for daily coding tips and project updates.</p>
-        </div>
-    </div>
-</section>
-
-<footer>
-    © 2026 Yazan Ayasrah | All Rights Reserved
-</footer>
-
 <style>
 .contact-box {
     display: flex;
@@ -107,7 +36,128 @@
     color: #aaa;
     font-size: 14px;
 }
+.social-media {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+.social-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    transition: transform 0.3s ease;
+}
+.social-link:hover {
+    transform: translateY(-5px);
+}
+.social-logo {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1a1a1a 0%, #242442 100%);
+    border: 2px solid #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    transition: all 0.3s ease;
+}
+.social-link:hover .social-logo {
+    border-color: #00ffcc;
+    box-shadow: 0 0 20px rgba(0, 255, 204, 0.3);
+}
+.social-name {
+    color: #00ffcc;
+    font-size: 14px;
+    font-weight: 600;
+}
 </style>
+</head>
+
+<body>
+
+<header>
+    <h1>YAZAN.dev</h1>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="projects.html">Projects</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <h2>Get in <span>Touch</span></h2>
+    <p>Connect with me on social media and let's build something amazing together.</p>
+</section>
+
+<section class="section">
+    <h3>About Me</h3>
+    <div class="about-content">
+        <p style="font-size: 18px; color: #bbb; line-height: 1.8; margin-bottom: 20px;">
+            I'm an IT student passionate about web development, AI applications, and creating intuitive user experiences. 
+            With a focus on modern technologies and clean code, I craft solutions that solve real-world problems.
+            Follow me on social media to see my latest projects and coding journey!
+        </p>
+        <p style="font-size: 18px; color: #bbb; line-height: 1.8; margin-bottom: 20px;">
+            I'm currently studying Information Technology and building modern web applications in my spare time. 
+            I specialize in creating responsive, user-friendly interfaces with clean, maintainable code. My expertise 
+            includes HTML, CSS, JavaScript, and I'm constantly learning new frameworks and tools to improve my craft.
+        </p>
+        <p style="font-size: 18px; color: #bbb; line-height: 1.8;">
+            I believe in the power of technology to solve problems and improve lives. Whether it's building a portfolio 
+            builder powered by AI or creating apps for daily supplications, I'm always excited to work on projects 
+            that make a real difference. Let's connect and collaborate!
+        </p>
+    </div>
+</section>
+
+<section class="section">
+    <h3>Contact Information</h3>
+    <div class="contact-box">
+        <div class="contact-info">
+            <h4>Email</h4>
+            <p>contact@yazan.dev</p>
+        </div>
+        <div class="contact-info">
+            <h4>Phone</h4>
+            <p>+1 (555) 123-4567</p>
+        </div>
+        <div class="contact-info">
+            <h4>Location</h4>
+            <p>Palestine, Jordan</p>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <h3>Find Me Online</h3>
+    <div class="social-media">
+        <a href="https://github.com/yazanayasreh" target="_blank" class="social-link">
+            <div class="social-logo">🐙</div>
+            <span class="social-name">GitHub</span>
+        </a>
+        <a href="https://linkedin.com/in/yazanayasreh" target="_blank" class="social-link">
+            <div class="social-logo">💼</div>
+            <span class="social-name">LinkedIn</span>
+        </a>
+        <a href="https://twitter.com/yazanayasreh" target="_blank" class="social-link">
+            <div class="social-logo">🐦</div>
+            <span class="social-name">Twitter/X</span>
+        </a>
+        <a href="https://instagram.com/yazanayasreh" target="_blank" class="social-link">
+            <div class="social-logo">📷</div>
+            <span class="social-name">Instagram</span>
+        </a>
+    </div>
+</section>
+
+<footer>
+    © 2026 Yazan Ayasrah | All Rights Reserved
+</footer>
 
 </body>
 </html>
