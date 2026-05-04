@@ -35,11 +35,53 @@
     margin-bottom: 15px;
     font-size: 16px;
 }
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin-top: 25px;
+}
+.skill-badge {
+    background: linear-gradient(135deg, rgba(0, 255, 204, 0.1) 0%, transparent 100%);
+    border: 1px solid rgba(0, 255, 204, 0.3);
+    padding: 12px 20px;
+    border-radius: 25px;
+    text-align: center;
+    color: #00ffcc;
+    font-weight: 600;
+    font-size: 14px;
+}
+.stats-row {
+    display: flex;
+    gap: 40px;
+    margin-top: 30px;
+    padding: 20px 0;
+    border-top: 1px solid #333;
+}
+.stat-item {
+    text-align: center;
+}
+.stat-item span {
+    display: block;
+    color: #00ffcc;
+    font-size: 36px;
+    font-weight: 800;
+}
+.stat-item label {
+    color: #777;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
 @media (max-width: 768px) {
     .about-section {
         flex-direction: column;
         align-items: center;
         text-align: center;
+    }
+    .stats-row {
+        flex-direction: column;
+        gap: 20px;
     }
 }
 </style>
@@ -63,21 +105,21 @@
 </section>
 
 <section class="section">
-    <h3>Projects</h3>
+    <h3>Featured Projects</h3>
     <div class="projects">
         <div class="card">
             <h4>AI Portfolio Builder</h4>
-            <p>Generate dynamic personal websites using AI tools.</p>
+            <p>Generate dynamic personal websites using AI tools. Create beautiful portfolios in minutes with our intelligent builder.</p>
         </div>
 
         <div class="card">
             <h4>Supplications Website</h4>
-            <p>A clean site for daily morning adhkar with smooth UI.</p>
+            <p>A clean site for daily morning adhkar with smooth UI. Read, listen, and track your daily spiritual practice.</p>
         </div>
 
         <div class="card">
             <h4>Developer Hub</h4>
-            <p>A platform where coders showcase and run projects online.</p>
+            <p>A platform where coders showcase and run projects online. Share your work and get community feedback.</p>
         </div>
     </div>
 </section>
@@ -105,6 +147,33 @@
                     source projects, or sharing my knowledge through blog posts and tutorials. Let's connect 
                     and build something amazing together!
                 </p>
+                
+                <h4 style="margin-top: 25px; margin-bottom: 15px;">Skills & Technologies</h4>
+                <div class="skills-grid">
+                    <div class="skill-badge">HTML5</div>
+                    <div class="skill-badge">CSS3</div>
+                    <div class="skill-badge">JavaScript</div>
+                    <div class="skill-badge">React</div>
+                    <div class="skill-badge">Node.js</div>
+                    <div class="skill-badge">Vue.js</div>
+                    <div class="skill-badge">AI/ML</div>
+                    <div class="skill-badge">Git</div>
+                </div>
+                
+                <div class="stats-row">
+                    <div class="stat-item">
+                        <span>15+</span>
+                        <label>Projects Completed</label>
+                    </div>
+                    <div class="stat-item">
+                        <span>200+</span>
+                        <label>Hours Coding</label>
+                    </div>
+                    <div class="stat-item">
+                        <span>3+</span>
+                        <label>Years Learning</label>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
