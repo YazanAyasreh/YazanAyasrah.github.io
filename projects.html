@@ -5,6 +5,69 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Projects | Yazan Ayasrah</title>
 <link rel="stylesheet" href="styles.css">
+<style>
+.project-card {
+    background: linear-gradient(135deg, #1a1a1a 0%, #242442 100%);
+    padding: 30px;
+    border-radius: 15px;
+    border: 1px solid #333;
+    transition: all 0.4s ease;
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+}
+.project-card:hover {
+    border-color: #00ffcc;
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 255, 204, 0.15);
+}
+.project-card h4 {
+    color: #00ffcc;
+    font-size: 22px;
+    margin-bottom: 15px;
+}
+.project-card p {
+    color: #aaa;
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    flex-grow: 1;
+}
+.tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+.tech-stack span {
+    background: rgba(0, 255, 204, 0.1);
+    color: #00ffcc;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    border: 1px solid rgba(0, 255, 204, 0.3);
+}
+.features {
+    margin-top: 10px;
+}
+.features ul {
+    list-style: none;
+    padding: 0;
+}
+.features li {
+    color: #888;
+    font-size: 13px;
+    padding: 3px 0;
+    position: relative;
+    padding-left: 20px;
+}
+.features li::before {
+    content: '▹';
+    position: absolute;
+    left: 0;
+    color: #00ffcc;
+}
+</style>
 </head>
 
 <body>
@@ -26,19 +89,55 @@
 <section class="section">
     <h3>Featured Projects</h3>
     <div class="projects">
-        <div class="card">
+        <div class="card project-card">
             <h4>AI Portfolio Builder</h4>
-            <p>Generate dynamic personal websites using AI tools.</p>
+            <p>Generate dynamic personal websites using AI tools. Simply provide your information and preferences, and the AI creates a beautiful, responsive portfolio tailored to your needs.</p>
+            <div class="tech-stack">
+                <span>HTML/CSS</span>
+                <span>JavaScript</span>
+                <span>AI API</span>
+            </div>
+            <div class="features">
+                <ul>
+                    <li>AI-powered content generation</li>
+                    <li>Fully responsive design</li>
+                    <li>Multiple template options</li>
+                </ul>
+            </div>
         </div>
 
-        <div class="card">
+        <div class="card project-card">
             <h4>Supplications Website</h4>
-            <p>A clean site for daily morning adhkar with smooth UI.</p>
+            <p>A clean site for daily morning adhkar with smooth UI. Features an elegant interface for reading and listening to Islamic supplications with customizable themes and notifications.</p>
+            <div class="tech-stack">
+                <span>React</span>
+                <span>Node.js</span>
+                <span>MongoDB</span>
+            </div>
+            <div class="features">
+                <ul>
+                    <li>Daily notification reminders</li>
+                    <li>Audio playback support</li>
+                    <li>Dark/Light mode toggle</li>
+                </ul>
+            </div>
         </div>
 
-        <div class="card">
+        <div class="card project-card">
             <h4>Developer Hub</h4>
-            <p>A platform where coders showcase and run projects online.</p>
+            <p>A platform where coders showcase and run projects online. Built for developers to share their work, get feedback, and collaborate with the community.</p>
+            <div class="tech-stack">
+                <span>Vue.js</span>
+                <span>Express</span>
+                <span>PostgreSQL</span>
+            </div>
+            <div class="features">
+                <ul>
+                    <li>Real-time code execution</li>
+                    <li>Project showcase gallery</li>
+                    <li>Community feedback system</li>
+                </ul>
+            </div>
         </div>
     </div>
     <button class="btn" onclick="location.href='contact.html'" style="margin-top: 30px;">Contact Me</button>
