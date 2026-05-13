@@ -20,6 +20,8 @@
     width: 200px;
     height: 200px;
     object-fit: cover;
+    background-position: center;
+    background-size: cover;
 }
 .about-text {
     flex-grow: 1;
@@ -126,7 +128,9 @@
     <h3>About Me</h3>
     <div class="about-content">
         <div class="about-section">
-            <img src="photo.jpeg" alt="Yazan Ayasrah" class="about-img">
+            <Carousel.Item interval={5000}>
+                <img src="photo.jpeg" alt="Yazan Ayasrah" class="about-img">
+            </Carousel.Item>
             <div class="about-text">
                 <p>
                     I'm an IT student passionate about web development, AI applications, and creating intuitive 
