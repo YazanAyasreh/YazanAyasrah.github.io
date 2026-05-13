@@ -23,6 +23,28 @@
     background-position: center;
     background-size: cover;
 }
+
+
+.img-zoom-container {
+  position: relative;
+}
+.img-zoom-lens {
+  position: absolute;
+  border: 1px solid #d4d4d4;
+  /*set the size of the lens:*/
+  width: 40px;
+  height: 40px;
+}
+
+.img-zoom-result {
+  border: 1px solid #d4d4d4;
+  /*set the size of the result div:*/
+  width: 300px;
+  height: 300px;
+}
+
+
+    
 .about-text {
     flex-grow: 1;
 }
@@ -128,9 +150,10 @@
     <h3>About Me</h3>
     <div class="about-content">
         <div class="about-section">
-            <Carousel.Item interval={5000}>
+            <div class="img-zoom-container">
                 <img src="photo.jpeg" alt="Yazan Ayasrah" class="about-img">
-            </Carousel.Item>
+                <div id="myresult" class="img-zoom-result"></div>
+            </div>
             <div class="about-text">
                 <p>
                     I'm an IT student passionate about web development, AI applications, and creating intuitive 
