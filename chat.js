@@ -38,23 +38,61 @@ document.addEventListener('DOMContentLoaded', () => {
         
         setupAuthTabs();
         setupForms();
+        setupAnimations();
     } else {
         console.error('Firebase not initialized');
     }
 });
 
-// Auth tab switching
+// Setup fade-in animations
+function setupAnimations() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, { threshold: 0.1 });
+    
+    // Observe auth forms for fade-in
+    setTimeout(() => {
+        observer.observe(authForms);
+        observer.observe(loginForm);
+        observer.observe(registerForm);
+    }, 100);
+}
+
+// Auth tab switching with smooth fade
 function setupAuthTabs() {
     authTabs.forEach(tab => {
         tab.addEventListener('click', () => {
+            // Update active tab
             authTabs.forEach(t => t.classList.remove('active'));
             tab.classList.add('active');
             
             const tabName = tab.getAttribute('data-tab');
-            document.getElementById(`${tabName}-form`).classList.add('active');
+            const activeForm = document.getElementById(`${tabName}-form`);
+            const otherTab = tabName === 'login' ? 'register' : 'login';
+            const otherForm = document.getElementById(`${otherTab}-form`);
             
-            const otherForm = tabName === 'login' ? 'register' : 'login';
-            document.getElementById(`${otherForm}-form`).classList.remove('active');
+            // Fade out current form
+            const currentlyActive = document.querySelector('.auth-form.active');
+            if (currentlyActive && currentlyActive !== activeForm) {
+                currentlyActive.style.opacity = '0';
+                currentlyActive.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    currentlyActive.classList.remove('active');
+                    activeForm.classList.add('active');
+                    activeForm.style.opacity = '1';
+                    activeForm.style.transform = 'translateY(0)';
+                }, 300);
+            } else {
+                activeForm.classList.add('active');
+                activeForm.style.opacity = '1';
+                activeForm.style.transform = 'translateY(0)';
+            }
         });
     });
 }
