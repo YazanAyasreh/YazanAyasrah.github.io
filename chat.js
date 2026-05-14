@@ -1,8 +1,8 @@
 // Chat JavaScript - Firebase Authentication and Firestore Integration
 
 // DOM Elements
-const authForms = document.getElementById('auth-forms');
-const chatInterface = document.getElementById('chat-interface');
+const authCard = document.getElementById('auth-card');
+const chatCard = document.getElementById('chat-card');
 const loginForm = document.getElementById('login-form');
 const registerForm = document.getElementById('register-form');
 const loginError = document.getElementById('login-error');
@@ -12,7 +12,7 @@ const chatInput = document.getElementById('chat-input');
 const sendBtn = document.getElementById('send-btn');
 const logoutBtn = document.getElementById('logout-btn');
 const currentUserSpan = document.getElementById('current-user');
-const authTabs = document.querySelectorAll('.auth-tab');
+const authBtns = document.querySelectorAll('.auth-btn');
 
 // Firebase references
 let db;
@@ -21,12 +21,10 @@ let messagesListener = null;
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
-    // Wait for Firebase to be initialized
     if (typeof firebase !== 'undefined') {
         db = firebase.firestore();
         auth = firebase.auth();
         
-        // Check if user is already logged in
         auth.onAuthStateChanged(user => {
             if (user) {
                 showChatInterface();
@@ -38,61 +36,23 @@ document.addEventListener('DOMContentLoaded', () => {
         
         setupAuthTabs();
         setupForms();
-        setupAnimations();
     } else {
         console.error('Firebase not initialized');
     }
 });
 
-// Setup fade-in animations
-function setupAnimations() {
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-            }
-        });
-    }, { threshold: 0.1 });
-    
-    // Observe auth forms for fade-in
-    setTimeout(() => {
-        observer.observe(authForms);
-        observer.observe(loginForm);
-        observer.observe(registerForm);
-    }, 100);
-}
-
-// Auth tab switching with smooth fade
+// Auth tab switching
 function setupAuthTabs() {
-    authTabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            // Update active tab
-            authTabs.forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
+    authBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            authBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
             
-            const tabName = tab.getAttribute('data-tab');
-            const activeForm = document.getElementById(`${tabName}-form`);
-            const otherTab = tabName === 'login' ? 'register' : 'login';
-            const otherForm = document.getElementById(`${otherTab}-form`);
+            const tabName = btn.getAttribute('data-tab');
+            document.getElementById(`${tabName}-form`).classList.add('active');
             
-            // Fade out current form
-            const currentlyActive = document.querySelector('.auth-form.active');
-            if (currentlyActive && currentlyActive !== activeForm) {
-                currentlyActive.style.opacity = '0';
-                currentlyActive.style.transform = 'translateY(20px)';
-                
-                setTimeout(() => {
-                    currentlyActive.classList.remove('active');
-                    activeForm.classList.add('active');
-                    activeForm.style.opacity = '1';
-                    activeForm.style.transform = 'translateY(0)';
-                }, 300);
-            } else {
-                activeForm.classList.add('active');
-                activeForm.style.opacity = '1';
-                activeForm.style.transform = 'translateY(0)';
-            }
+            const otherForm = tabName === 'login' ? 'register' : 'login';
+            document.getElementById(`${otherForm}-form`).classList.remove('active');
         });
     });
 }
@@ -126,7 +86,6 @@ function setupForms() {
         try {
             const userCredential = await auth.createUserWithEmailAndPassword(email, password);
             
-            // Store username in Firestore
             await db.collection('users').doc(userCredential.user.uid).set({
                 username: username,
                 email: email,
@@ -149,9 +108,7 @@ function setupForms() {
     
     sendBtn.addEventListener('click', sendMessage);
     chatInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            sendMessage();
-        }
+        if (e.key === 'Enter') sendMessage();
     });
 }
 
@@ -177,7 +134,6 @@ async function sendMessage() {
     if (!messageText || !user) return;
     
     try {
-        // Get username from Firestore
         const userDoc = await db.collection('users').doc(user.uid).get();
         const username = userDoc.exists ? userDoc.data().username : user.email;
         
@@ -204,16 +160,14 @@ function renderMessages(docs) {
         messageDiv.classList.add('message');
         
         const currentUserId = auth.currentUser?.uid;
-        const messageUserId = msg.userId;
-        
-        if (messageUserId === currentUserId) {
+        if (msg.userId === currentUserId) {
             messageDiv.classList.add('own');
         } else {
             messageDiv.classList.add('other');
         }
         
         const timestamp = msg.timestamp?.toDate ? msg.timestamp.toDate() : new Date();
-        const messageContent = `
+        messageDiv.innerHTML = `
             <div class="message-header">
                 <span class="username">${escapeHtml(msg.username)}</span>
                 <span class="time">${timestamp.toLocaleTimeString()}</span>
@@ -221,7 +175,6 @@ function renderMessages(docs) {
             <div class="message-text">${escapeHtml(msg.text)}</div>
         `;
         
-        messageDiv.innerHTML = messageContent;
         chatMessages.appendChild(messageDiv);
     });
     
@@ -230,8 +183,9 @@ function renderMessages(docs) {
 
 // UI Functions
 function showChatInterface() {
-    authForms.style.display = 'none';
-    chatInterface.style.display = 'block';
+    authCard.style.display = 'none';
+    chatCard.style.display = 'block';
+    
     const user = auth.currentUser;
     if (user) {
         db.collection('users').doc(user.uid).get().then(doc => {
@@ -245,8 +199,8 @@ function showChatInterface() {
 }
 
 function showAuthForms() {
-    authForms.style.display = 'block';
-    chatInterface.style.display = 'none';
+    authCard.style.display = 'block';
+    chatCard.style.display = 'none';
     loginForm.reset();
     registerForm.reset();
     loginError.textContent = '';
