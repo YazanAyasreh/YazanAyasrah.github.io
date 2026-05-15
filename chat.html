@@ -580,12 +580,64 @@
         gap: 15px;
     }
     
-    .message {
-        max-width: 70%;
-        padding: 12px 15px;
-        border-radius: 15px;
-        animation: messageSlide 0.3s ease;
-    }
+.message {
+    max-width: 70%;
+    padding: 12px 15px;
+    border-radius: 15px;
+    animation: messageSlide 0.3s ease;
+    position: relative;
+}
+
+.media-content {
+    max-width: 100%;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+.message.own .media-content {
+    /* Own media messages */
+}
+
+.message.other .media-content {
+    /* Other's media messages */
+}
+
+.delete-btn {
+    background: none;
+    border: none;
+    color: #ff6b6b;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    opacity: 0.7;
+}
+
+
+.message.uploading {
+    opacity: 0.7;
+    font-style: italic;
+}
+.message.error {
+    background: rgba(255, 107, 107, 0.2);
+    border-color: #ff6b6b;
+}
+
+.message.error .message-text {
+    color: #ff6b6b;
+}
+
+
+.delete-btn:hover {
+    background: rgba(255, 107, 107, 0.1);
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.delete-btn:active {
+    transform: scale(0.9);
+}
     
     @keyframes messageSlide {
         from {
@@ -616,6 +668,7 @@
     margin-bottom: 5px;
     font-size: 12px;
     align-items: center;
+    position: relative;
 }
 
 .username {
@@ -628,21 +681,29 @@
     margin-left: 20px;
 }
     
-    .message.own .message-header {
-        color: rgba(0, 0, 0, 0.6);
-    }
+.message.own .message-header {
+    position: relative;
+}
+.message.own .delete-btn {
+    position: absolute;
+    right: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
     
     .message.other .message-header {
         color: #777;
     }
     
-    .username {
-        font-weight: 700;
-    }
-    
-    .time {
-        opacity: 0.7;
-    }
+.username {
+    font-weight: 700;
+    margin-right: 20px;
+}
+
+.time {
+    opacity: 0.7;
+    margin-left: 20px;
+}
     
     .message-text {
         font-size: 14px;
