@@ -610,12 +610,23 @@
         border: 1px solid #333;
     }
     
-    .message-header {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 5px;
-        font-size: 12px;
-    }
+.message-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-size: 12px;
+    align-items: center;
+}
+
+.username {
+    font-weight: 700;
+    margin-right: 20px;
+}
+
+.time {
+    opacity: 0.7;
+    margin-left: 20px;
+}
     
     .message.own .message-header {
         color: rgba(0, 0, 0, 0.6);
@@ -764,13 +775,12 @@
     <!-- Firebase Configuration - Replace with your Firebase project config -->
     <script>
         const firebaseConfig = {
-            apiKey: "AIzaSyCjCw_vgOsYgiRpNUc-A1YpjjZqLLDHhYA",
-            authDomain: "dev-chat-39564.firebaseapp.com",
-            projectId: "dev-chat-39564",
-            storageBucket: "dev-chat-39564.firebasestorage.app",
-            messagingSenderId: "736606661901",
-            appId: "1:736606661901:web:25f2b8e4de8deb18041444",
-            measurementId: "G-5ST2ZLZ39L"
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_SENDER_ID",
+            appId: "YOUR_APP_ID"
         };
         
         // Initialize Firebase
