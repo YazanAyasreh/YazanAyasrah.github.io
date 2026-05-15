@@ -9,6 +9,8 @@ const loginError = document.getElementById('login-error');
 const registerError = document.getElementById('register-error');
 const chatMessages = document.getElementById('chat-messages');
 const chatInput = document.getElementById('chat-input');
+const mediaInput = document.getElementById('media-input');
+const mediaBtn = document.getElementById('media-btn');
 const sendBtn = document.getElementById('send-btn');
 const logoutBtn = document.getElementById('logout-btn');
 const currentUserSpan = document.getElementById('current-user');
@@ -17,6 +19,7 @@ const authBtns = document.querySelectorAll('.auth-btn');
 // Firebase references
 let db;
 let auth;
+let storage;
 let messagesListener = null;
 
 // Initialize
@@ -24,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (typeof firebase !== 'undefined') {
         db = firebase.firestore();
         auth = firebase.auth();
+        storage = firebase.storage();
         
         auth.onAuthStateChanged(user => {
             if (user) {
@@ -36,6 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         setupAuthTabs();
         setupForms();
+        setupMediaHandlers();
     } else {
         console.error('Firebase not initialized');
     }
@@ -112,18 +117,111 @@ function setupForms() {
     });
 }
 
-// Setup real-time message listener
-function setupMessageListener() {
-    if (!db) return;
+// Setup media handlers
+function setupMediaHandlers() {
+    mediaBtn.addEventListener('click', () => {
+        mediaInput.click();
+    });
     
-    messagesListener = db.collection('messages')
-        .orderBy('timestamp', 'desc')
-        .limit(100)
-        .onSnapshot(snapshot => {
-            renderMessages(snapshot.docs.reverse());
-        }, error => {
-            console.error('Error listening to messages:', error);
+    mediaInput.addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        
+        const user = auth.currentUser;
+        if (!user) return;
+        
+        try {
+            // Show uploading state
+            const uploadMsg = document.createElement('div');
+            uploadMsg.classList.add('message', 'own', 'uploading');
+            uploadMsg.innerHTML = `
+                <div class="message-header">
+                    <span class="username">You</span>
+                    <span class-time">Uploading...</span>
+                </div>
+                <div class="message-text">Uploading ${file.name}...</div>
+            `;
+            chatMessages.appendChild(uploadMsg);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            // Upload file to Firebase Storage
+            const fileRef = storage.ref(`chat_media/${Date.now()}_${file.name}`);
+            const snapshot = await fileRef.put(file);
+            const downloadURL = await snapshot.ref.getDownloadURL();
+            
+            // Get username from Firestore
+            const userDoc = await db.collection('users').doc(user.uid).get();
+            const username = userDoc.exists ? userDoc.data().username : user.email;
+            
+            // Determine message type
+            let messageType = 'text';
+            let messageContent = '';
+            
+            if (file.type.startsWith('image/')) {
+                messageType = 'image';
+                messageContent = downloadURL;
+            } else if (file.type.startsWith('video/')) {
+                messageType = 'video';
+                messageContent = downloadURL;
+            } else if (file.type.startsWith('audio/')) {
+                messageType = 'audio';
+                messageContent = downloadURL;
+            }
+            
+            // Save message to Firestore
+            await db.collection('messages').add({
+                username: username,
+                userId: user.uid,
+                type: messageType,
+                content: messageContent,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            
+            // Remove uploading message
+            uploadMsg.remove();
+            
+            // Reset file input
+            mediaInput.value = '';
+        } catch (error) {
+            console.error('Error uploading media:', error);
+            // Remove uploading message and show error
+            uploadMsg.innerHTML = `
+                <div class="message-header">
+                    <span class="username">You</span>
+                    <span class-time">Error</span>
+                </div>
+                <div class="message-text">Failed to upload ${file.name}</div>
+            `;
+            uploadMsg.classList.add('error');
+            mediaInput.value = '';
+        }
+    });
+}
+
+// Send message
+async function sendMessage() {
+    const messageText = chatInput.value.trim();
+    const user = auth.currentUser;
+    
+    if (!messageText || !user) return;
+    
+    try {
+        // Get username from Firestore
+        const userDoc = await db.collection('users').doc(user.uid).get();
+        const username = userDoc.exists ? userDoc.data().username : user.email;
+        
+        await db.collection('messages').add({
+            username: username,
+            userId: user.uid,
+            type: 'text',
+            content: messageText,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
         });
+        
+        chatInput.value = '';
+    } catch (error) {
+        console.error('Error sending message:', error);
+    }
 }
 
 // Send message
@@ -167,15 +265,59 @@ function renderMessages(docs) {
         }
         
         const timestamp = msg.timestamp?.toDate ? msg.timestamp.toDate() : new Date();
+        
+        let messageContent = '';
+        switch (msg.type) {
+            case 'image':
+                messageContent = `<img src="${escapeHtml(msg.content)}" alt="Shared image" class="media-content">`;
+                break;
+            case 'video':
+                messageContent = `
+                    <video controls class="media-content">
+                        <source src="${escapeHtml(msg.content)}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                `;
+                break;
+            case 'audio':
+                messageContent = `
+                    <audio controls class="media-content">
+                        <source src="${escapeHtml(msg.content)}" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                `;
+                break;
+            default: // text
+                messageContent = `<div class="message-text">${escapeHtml(msg.content)}</div>`;
+                break;
+        }
+        
         messageDiv.innerHTML = `
             <div class="message-header">
                 <span class="username">${escapeHtml(msg.username)}</span>
                 <span class="time">${timestamp.toLocaleTimeString()}</span>
+                ${currentUserId === msg.userId ? `<button class="delete-btn" data-id="${doc.id}" title="Delete message">🗑️</button>` : ''}
             </div>
-            <div class="message-text">${escapeHtml(msg.text)}</div>
+            ${messageContent}
         `;
         
         chatMessages.appendChild(messageDiv);
+    });
+    
+    // Add event listeners to delete buttons
+    document.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+            const messageId = e.target.getAttribute('data-id');
+            const user = auth.currentUser;
+            
+            if (!user) return;
+            
+            try {
+                await db.collection('messages').doc(messageId).delete();
+            } catch (error) {
+                console.error('Error deleting message:', error);
+            }
+        });
     });
     
     chatMessages.scrollTop = chatMessages.scrollHeight;
